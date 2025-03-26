@@ -1,0 +1,350 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\title{Project Specification: All-in-One Email Marketing Platform}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Team Roles}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Member} & \textbf{Responsibility} \\
+\hline
+Abderrahmane Hafdane & Email Verification \& Backend API \\
+\hline
+Imad & Email Finder \& Backend API \\
+\hline
+Said & Email Sending \& SMTP Backend API \\
+\hline
+\end{tabular}
+
+\section{Project Overview}
+\subsection{Overview}
+We are developing an all-in-one email marketing platform that combines three core services:
+\begin{itemize}
+    \item \textbf{Email Verification} – Verify email addresses for validity and deliverability.
+    \item \textbf{Email Finder} – Extract professional emails based on keywords, roles, and companies.
+    \item \textbf{Email Sending} – Send personalized cold emails with tracking and automation.
+\end{itemize}
+
+Users can:
+\begin{itemize}
+    \item Choose individual services (verification, finding, or sending).
+    \item Opt for the all-in-one package (find → verify → send in one click).
+    \item Manage campaigns in a unified workspace.
+    \item Leave reviews and track performance.
+\end{itemize}
+
+\subsection{Project Objectives}
+\begin{itemize}
+    \item Create a unified platform for all email marketing steps.
+    \item Simplify the prospecting and email sending process.
+    \item Provide analytics and performance tracking tools.
+    \item Ensure compliance with email regulations (GDPR, CAN-SPAM).
+    \item Offer an intuitive and efficient user interface.
+\end{itemize}
+
+\section{Core Features \& Workflows}
+\subsection{Landing Page Elements}
+\begin{itemize}
+    \item Service Descriptions
+    \item Pricing Plans (Free trial, pay-per-use, subscription models)
+    \item User Reviews \& Testimonials
+    \item Signup/Login (OAuth + Email)
+\end{itemize}
+
+\subsection{Email Verification Service}
+\paragraph{Workflow:}
+\begin{enumerate}
+    \item Upload CSV or manually enter emails.
+    \item Start Verification (checks SMTP, domain validity, disposable status).
+    \item Download Results (CSV with Email, Status, Risk Score).
+\end{enumerate}
+
+\paragraph{Features:}
+\begin{itemize}
+    \item Bulk verification (up to 10,000 emails per batch).
+    \item Real-time API for developers.
+    \item Spam trap detection.
+\end{itemize}
+
+\subsection{Email Finder Service}
+\paragraph{Workflow:}
+\begin{enumerate}
+    \item Enter Keywords (e.g., "HR managers in tech startups").
+    \item Start Searching (scrapes LinkedIn, company websites).
+    \item Download Results (CSV with Email, Name, Role, Company, LinkedIn).
+\end{enumerate}
+
+\paragraph{Features:}
+\begin{itemize}
+    \item AI-powered search refinement.
+    \item Export to CRM (HubSpot, Salesforce).
+    \item Role-based filtering (CEO, Marketing, HR).
+\end{itemize}
+
+\subsection{Email Sending Service}
+\paragraph{Workflow:}
+\begin{enumerate}
+    \item Connect Email Account (Gmail, Outlook or SMTP).
+    \item Configure Message (Subject, Body, Attachments, Personalization).
+    \item Upload Recipients (or use found/verified emails).
+    \item Start Sending (with open-rate tracking).
+\end{enumerate}
+
+\paragraph{Features:}
+\begin{itemize}
+    \item Cold email automation (drip campaigns).
+    \item A/B Testing (subject lines, CTAs).
+    \item Unlimited sending (premium users).
+    \item Anti-spam compliance (auto-throttling, warm-up).
+\end{itemize}
+
+\subsection{All-in-One Campaign (Full Automation)}
+\paragraph{Workflow:}
+\begin{enumerate}
+    \item \textbf{Setup:}
+    \begin{itemize}
+        \item Define target audience (keywords, filters).
+        \item Write email template (personalized with \{First Name\}).
+        \item Configure sending settings (daily limits, follow-ups).
+    \end{itemize}
+    \item \textbf{Launch:}
+    \begin{itemize}
+        \item Finds emails → Verifies them → Sends emails (fully automated).
+    \end{itemize}
+    \item \textbf{Monitor:}
+    \begin{itemize}
+        \item Dashboard with metrics (delivery rate, opens, replies).
+        \item Pause/Resume campaigns.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Features:}
+\begin{itemize}
+    \item Unlimited campaigns (enterprise users).
+    \item AI-generated email content (optional).
+    \item Blacklist management (avoid spam traps).
+\end{itemize}
+
+\section{Technical Architecture}
+\subsection{Frontend Stack}
+\begin{itemize}
+    \item \textbf{Framework:} React.js (TypeScript).
+    \item \textbf{State Management:} Redux Toolkit.
+    \item \textbf{UI Library:} Material-UI + TailwindCSS.
+    \item \textbf{Main Pages:}
+    \begin{itemize}
+        \item Landing Page
+        \item Dashboard
+        \item Authentication
+        \item Service-Specific UIs
+    \end{itemize}
+\end{itemize}
+
+\subsection{Backend Stack}
+\begin{itemize}
+    \item \textbf{Framework:} Flask (Python).
+    \item \textbf{API Type:} RESTful.
+    \item \textbf{Authentication:} JWT (Flask-JWT-Extended).
+    \item \textbf{Algorithms:} All algorithms have been created from scratch using Python.
+    \begin{itemize}
+        \item Email Verification: SMTP checks, regex validation, domain validation, and disposable email detection.
+        \item Email Finder: Web scraping (BeautifulSoup/Scrapy), natural language processing (NLP) for keyword extraction.
+        \item Email Sender: SMTP client (smtplib) with rate limiting, email template personalization, and tracking.
+    \end{itemize}
+\end{itemize}
+
+\subsection{API Endpoints}
+\paragraph{Authentication:}
+\begin{itemize}
+    \item POST /api/auth/register
+    \item POST /api/auth/login
+\end{itemize}
+
+\paragraph{Email Verification:}
+\begin{itemize}
+    \item POST /api/verify/upload
+    \item GET /api/verify/status/\{job\_id\}
+    \item GET /api/verify/results/\{job\_id\}
+\end{itemize}
+
+\paragraph{Email Finder:}
+\begin{itemize}
+    \item POST /api/finder/search
+    \item GET /api/finder/results/\{job\_id\}
+\end{itemize}
+
+\paragraph{Email Sender:}
+\begin{itemize}
+    \item POST /api/sender/connect
+    \item POST /api/sender/send
+\end{itemize}
+
+\paragraph{Campaign (All-in-One):}
+\begin{itemize}
+    \item POST /api/campaign/create
+    \item GET /api/campaign/status/\{campaign\_id\}
+\end{itemize}
+
+\subsection{Data Storage (MVP Phase)}
+\begin{itemize}
+    \item users.json (credentials \& preferences)
+    \item campaigns/\{user\_id\}.csv (tracks campaigns)
+    \item emails\_found/\{user\_id\}.csv (scraped emails)
+    \item verification\_results/\{user\_id\}.csv (verification logs)
+\end{itemize}
+
+\subsection{Deployment}
+\paragraph{Local Machines:}
+\begin{itemize}
+    \item \textbf{Frontend:} npm run build → Serve via NGINX
+    \item \textbf{Backend:} Gunicorn + Flask (gunicorn app:app)
+    \item \textbf{Network:} Use Ngrok for temporary public URLs
+\end{itemize}
+
+\section{Event Management \& Workflow Logic}
+\subsection{Single Service Flow}
+\begin{itemize}
+    \item User selects a service
+    \item Inputs parameters
+    \item Clicks "Start" → Backend processes
+    \item Results stored → User downloads
+\end{itemize}
+
+\subsection{All-in-One Flow}
+\begin{itemize}
+    \item User sets up campaign
+    \item Clicks "Start Campaign" → Triggers:
+    \begin{itemize}
+        \item Finder → Extracts emails
+        \item Verifier → Filters invalid emails
+        \item Sender → Sends emails (with delays)
+    \end{itemize}
+    \item Real-time dashboard updates
+\end{itemize}
+
+\subsection{Error Handling}
+\begin{itemize}
+    \item Rate Limits: Queue tasks if exceeded
+    \item Bounced Emails: Auto-retry or mark invalid
+    \item Spam Complaints: Pause and notify
+\end{itemize}
+
+\subsection{Data Flow Example}
+\begin{itemize}
+    \item User form → /api/campaign/create
+    \item \textbf{Backend:}
+    \begin{itemize}
+        \item Finder → saves to CSV
+        \item Verifier → tags valid/invalid
+        \item Sender → sends emails (1/10 sec)
+    \end{itemize}
+    \item React polls for updates
+    \item Results saved to CSV/JSON
+\end{itemize}
+
+\section{Roadmap}
+\paragraph{Short Term (MVP):}
+\begin{itemize}
+    \item Landing Page
+    \item Email Verification
+    \item Email Finder (basic)
+    \item Email Sender (SMTP only)
+    \item Workspace Dashboard
+\end{itemize}
+
+\paragraph{Mid Term (3-6 Months):}
+\begin{itemize}
+    \item LinkedIn Scraper
+    \item AI-Powered Email Writer
+    \item CRM Integrations
+    \item Unlimited Sending Mode
+\end{itemize}
+
+\paragraph{Long Term (1 Year):}
+\begin{itemize}
+    \item Full Cold Email Automation
+    \item Team Collaboration
+    \item Compliance Tools
+\end{itemize}
+
+\section{Development Schedule}
+\paragraph{Current Phase:} We have completed the development of all Python algorithms for email verification, email finding, and email sending. We are now in the phase of creating the platform that utilizes these algorithms and preparing for deployment.
+\begin{itemize}
+    \item \textbf{Day 1-2:} Develop the frontend interface for user interaction with the services.
+    \item \textbf{Day 3:} Integrate the frontend with the backend APIs.
+    \item \textbf{Day 4:} Implement the unified workspace dashboard.
+    \item \textbf{Day 5:} Conduct comprehensive testing of the platform.
+    \item \textbf{Day 6:} Finalize deployment setup and configurations.
+    \item \textbf{Day 7:} Deploy the platform and perform post-deployment checks.
+\end{itemize}
+
+\subsection{Platform Details}
+\paragraph{Workspace:}
+\begin{itemize}
+    \item A unified workspace where users can choose to use individual services (Email Verification, Email Finder, Email Sending) or opt for the all-in-one package.
+    \item Users can manage their campaigns, configure messages, and track performance all in one place.
+\end{itemize}
+
+\paragraph{Service-Specific Workflows:}
+\begin{itemize}
+    \item \textbf{Email Verification:}
+    \begin{itemize}
+        \item Users can upload a CSV file of emails or manually enter emails.
+        \item Click "Start Verifying" to verify the emails.
+        \item Results are provided in a downloadable CSV file with email status and risk score.
+    \end{itemize}
+    \item \textbf{Email Finder:}
+    \begin{itemize}
+        \item Users can enter keywords and a description of what they want to search for.
+        \item Click "Start Searching" to find emails based on the input criteria.
+        \item Results are provided in a downloadable CSV file with email, role, and company information.
+    \end{itemize}
+    \item \textbf{Email Sending:}
+    \begin{itemize}
+        \item Users can connect their email account (Gmail, Outlook, or SMTP).
+        \item Configure the message (subject, body, attachments, personalization).
+        \item Upload recipients or use found/verified emails.
+        \item Click "Start Sending" to send the emails with tracking.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{All-in-One Package:}
+\begin{itemize}
+    \item Users can set up their message configuration (subject, file attachment, letter) in the workspace.
+    \item Set up email account credentials for sending emails.
+    \item Click "Start Campaign" to automate the process:
+    \begin{itemize}
+        \item Email Finder finds emails.
+        \item Email Verifier verifies the existence of emails.
+        \item Email Sender sends the emails.
+    \end{itemize}
+    \item All of this is done in one click.
+    \item Long-term goal: Add an option to start unlimited campaigns that send emails without stopping.
+\end{itemize}
+
+\section{Error Handling}
+\begin{itemize}
+    \item SMTP Failures: 3 retries → mark failed
+    \item Rate Limits:
+    \begin{itemize}
+        \item Finder: 100 searches/day
+        \item Sender: 50 emails/hour
+    \end{itemize}
+    \item CSV Corruption: Validate before processing
+\end{itemize}
+
+\end{document}
